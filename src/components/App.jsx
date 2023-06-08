@@ -1,37 +1,8 @@
-import { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
 import ContactForm from './ContactForm';
 import Filter from './Filter';
 import ContactList from './ContactList';
 
 const App = () => {
-  const [contacts, setContacts] = useState(() => {
-    return JSON.parse(window.localStorage.getItem('contactList')) ?? [];
-  });
-  const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    window.localStorage.setItem('contactList', JSON.stringify(contacts));
-  }, [contacts]);
-
-  const createContact = data => {
-    const newContact = { id: nanoid(), ...data };
-
-    setContacts(contacts => [...contacts, newContact]);
-  };
-
-  const deleteContact = id => {
-    setContacts(contacts => contacts.filter(contact => contact.id !== id));
-  };
-
-  const handleFilterChange = e => {
-    setFilter(e.target.value);
-  };
-
-  const visibleContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
-
   return (
     <div
       style={{
@@ -52,11 +23,11 @@ const App = () => {
       }}
     >
       <h1>Phonebook</h1>
-      <ContactForm createContact={createContact} contacts={contacts} />
+      <ContactForm />
 
       <h2>Contacts</h2>
-      <Filter setFilter={handleFilterChange} filterValue={filter} />
-      <ContactList contacts={visibleContacts} deleteContact={deleteContact} />
+      <Filter />
+      <ContactList />
     </div>
   );
 };
